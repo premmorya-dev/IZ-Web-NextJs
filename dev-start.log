@@ -1,0 +1,12 @@
+
+> invoicezy@0.1.0 dev
+> next dev
+
+  ▲ Next.js 14.2.35
+  - Local:        http://localhost:3001
+
+ ✓ Starting...
+ ✓ Ready in 3.5s
+ ○ Compiling / ...
+ ✓ Compiled / in 114.2s (1454 modules)
+ GET / 200 in 116278ms

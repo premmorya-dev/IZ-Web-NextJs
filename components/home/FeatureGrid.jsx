@@ -7,7 +7,7 @@ import { FEATURES } from "@/lib/constants";
 
 export default function FeatureGrid() {
   return (
-    <section className="py-24 sm:py-28">
+    <section className=" sm:py-5">
       <div className="section-shell">
         <SectionHeader
           badge="Everything You Need"

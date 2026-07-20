@@ -2,9 +2,8 @@ import CTABanner from "@/components/home/CTABanner";
 import FeatureGrid from "@/components/home/FeatureGrid";
 import Hero from "@/components/home/Hero";
 import HowItWorks from "@/components/home/HowItWorks";
-import Stats from "@/components/home/Stats";
+import WhyChooseInvoicezy from "@/components/home/WhyChooseInvoicezy";
 import TemplateShowcase from "@/components/home/TemplateShowcase";
-import Testimonials from "@/components/home/Testimonials";
 
 export const metadata = {
   title: "Invoicezy Home | Free Online Invoice Software - Professional Invoices in Minutes",
@@ -95,12 +94,11 @@ const softwareSchema = {
 export default function HomePage() {
   return (
     <>
-      <Hero />
-      <FeatureGrid />
+      <Hero />      
       <HowItWorks />
-      <Stats />
-      <TemplateShowcase />
-      <Testimonials />
+      <WhyChooseInvoicezy />
+      <TemplateShowcase /> 
+      <FeatureGrid />    
       <CTABanner />
       <script
         dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}

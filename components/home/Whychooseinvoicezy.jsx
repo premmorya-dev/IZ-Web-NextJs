@@ -46,7 +46,7 @@ const FEATURES = [
 
 export default function WhyChooseInvoicezy() {
   return (
-    <section className="relative overflow-hidden py-24 sm:py-28">
+    <section className="relative overflow-hidden py-10 sm:py-10">
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute left-1/3 top-0 h-[380px] w-[380px] rounded-full bg-purple-600/15 blur-[120px]" />
         <div className="absolute right-1/4 bottom-0 h-[380px] w-[380px] rounded-full bg-indigo-500/15 blur-[120px]" />

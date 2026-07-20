@@ -20,9 +20,9 @@ export default function FeaturesPageClient() {
               align="left"
               as="h1"
               badge="Why Teams Choose Invoicezy"
-              description="Replace scattered spreadsheets, clunky invoicing tools, and manual follow-ups with one elegant finance workflow."
+              description="Invoicezy gives businesses everything they need to create Create GST invoices, manage clients, track expenses, monitor inventory, automate recurring invoices, accept UPI payments and grow your business with Invoicezy's complete cloud-based invoice software."
               icon={Layers2}
-              title="Modern billing, collections, and reporting in one place"
+              title="Powerful GST Invoice Software Features"
             />
             <div className="grid gap-4 sm:grid-cols-3">
               {[

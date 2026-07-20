@@ -21,7 +21,7 @@ export default function TemplateShowcase() {
   }, [filter]);
 
   return (
-    <section className="py-24 sm:py-28">
+    <section className="py-10 sm:py-10">
       <div className="section-shell">
         <SectionHeader
           badge="Professional Invoice Templates"

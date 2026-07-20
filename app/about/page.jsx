@@ -4,9 +4,9 @@ import SectionHeader from "@/components/shared/SectionHeader";
 import { ABOUT_METRICS, PRESS_LOGOS, TEAM_MEMBERS, TRUST_INDICATORS, VALUE_PROPS } from "@/lib/constants";
 
 export const metadata = {
-  title: "About Invoicezy - Building the Future of Business Finance in India",
+  title: "About Invoicezy - Online Invoice & Billing Software",
   description:
-    "Learn about Invoicezy's mission, values, team, and trust commitments as we build modern finance tools for Indian businesses.",
+    "Learn about Invoicezy, India's modern GST invoice software built for freelancers, startups and businesses to create invoices, track payments and grow faster.",
   alternates: {
     canonical: "/about"
   },
@@ -21,8 +21,10 @@ export default function AboutPage() {
           align="left"
           as="h1"
           badge="About Invoicezy"
-          description="We started Invoicezy to give Indian businesses a simpler, faster way to bill clients, stay compliant, and understand their financial health."
-          title="We're Building the Future of Business Finance in India"
+          description="Invoicezy is a cloud-based invoice software designed to help freelancers, startups, agencies and growing businesses create professional GST invoices, accept UPI payments, track expenses and manage clients from one simple dashboard.
+
+Whether you send 5 invoices every month or thousands, Invoicezy helps you automate billing so you can focus on growing your business."
+          title="Smart Invoicing Built for Modern Businesse"
         />
         <div className="glass-card p-8 sm:p-10">
           <p className="max-w-4xl text-lg leading-8 text-slate-300 light:text-slate-600">

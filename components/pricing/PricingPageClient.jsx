@@ -2,34 +2,27 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { BadgePercent, Check, Sparkles, X } from "lucide-react";
+import { BadgePercent, Check, Lock, Sparkles } from "lucide-react";
 import PricingCard from "@/components/shared/PricingCard";
 import SectionHeader from "@/components/shared/SectionHeader";
+import { PLANS } from "@/lib/plan";
+import { getAllFeatureRows } from "@/lib/pricing-features";
+
 import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
-  TableRow
+  TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 
-// 🔥 dynamic label
-const formatLabel = (key) => {
-  return key
-    .replace(/_/g, " ")
-    .replace(/\b\w/g, (char) => char.toUpperCase())
-    .replace(/\bQr\b/g, "QR")
-    .replace(/\bApi\b/g, "API");
-};
-
 export default function PricingPageClient() {
-  const [yearly, setYearly] = useState(false);
-  const [plans, setPlans] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [billing, setBilling] = useState("yearly"); // "monthly" | "yearly"
+  const [plans, setPlans] = useState(PLANS); // render instantly with fallback data, never a blank state
+  const [syncing, setSyncing] = useState(true);
 
-  // ✅ API CALL
   useEffect(() => {
     const fetchPlans = async () => {
       try {
@@ -41,23 +34,23 @@ export default function PricingPageClient() {
           features:
             typeof plan.features === "string"
               ? JSON.parse(plan.features || "{}")
-              : plan.features || {}
+              : plan.features || {},
         }));
 
-        setPlans(parsed);
+        if (parsed.length > 0) {
+          setPlans(parsed.sort((a, b) => a.plan_id - b.plan_id));
+        }
       } catch (err) {
-        console.error("API Error:", err);
-        setPlans([]);
+        console.error("Pricing API error, showing cached plans:", err);
       } finally {
-        setLoading(false);
+        setSyncing(false);
       }
     };
 
     fetchPlans();
   }, []);
 
-  const allFeatures =
-    plans.length > 0 ? Object.keys(plans[0].features) : [];
+  const featureRows = plans.length > 0 ? getAllFeatureRows(plans[0]) : [];
 
   return (
     <div className="pb-24 pt-32 sm:pb-28">
@@ -71,89 +64,113 @@ export default function PricingPageClient() {
           title="Pricing That Scales With Your Business"
         />
 
-        {/* Toggle */}
-        <div className="mb-10 flex justify-center">
-          <div className="glass-card inline-flex items-center gap-2 p-2">
-            <button
-              className={cn(
-                "rounded-xl px-5 py-3 text-sm font-medium",
-                yearly ? "bg-primary-gradient text-white" : "text-slate-400"
-              )}
-              onClick={() => setYearly(true)}
-            >
-              Yearly
-            </button>
-
-            <span className="rounded-full border border-success/30 bg-success/10 px-3 py-1 text-xs text-success-light">
-              Save 40%
+        {/* Billing toggle */}
+        <div className="mb-12 flex justify-center">
+          <div className="glass-card relative inline-flex items-center gap-1 rounded-2xl border border-white/10 p-1.5">
+            {[ "yearly"].map((mode) => (
+              <button
+                key={mode}
+                onClick={() => setBilling(mode)}
+                className={cn(
+                  "relative z-10 rounded-xl px-5 py-2.5 text-sm font-medium capitalize transition-colors duration-200",
+                  billing === mode ? "text-white" : "text-slate-400 hover:text-slate-200"
+                )}
+              >
+                {billing === mode && (
+                  <motion.span
+                    layoutId="billing-pill"
+                    transition={{ type: "spring", stiffness: 350, damping: 28 }}
+                    className="absolute inset-0 -z-10 rounded-xl bg-primary-gradient"
+                  />
+                )}
+                {mode}
+              </button>
+            ))}
+            <span className="ml-2 mr-1.5 flex items-center rounded-full border border-success/30 bg-success/10 px-3 py-1 text-xs font-medium text-success-light">
+              Save on annual
             </span>
           </div>
         </div>
 
         {/* Cards */}
-        {loading ? (
-          <p className="text-center text-slate-400">Loading...</p>
-        ) : (
-          <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-4">
-            {plans.map((plan, index) => (
-              <PricingCard
-                key={plan.plan_id}
-                plan={plan}
-                planIndex={index}
-                yearly={yearly}
-              />
-            ))}
-          </div>
+        <div className="grid items-stretch gap-6 sm:grid-cols-2 xl:grid-cols-4">
+          {plans.map((plan, index) => (
+            <PricingCard
+              key={plan.plan_id}
+              plan={plan}
+              index={index}
+              totalPlans={plans.length}
+              plans={plans}
+              billing={billing}
+            />
+          ))}
+        </div>
+
+        {!syncing ? null : (
+          <p className="mt-6 text-center text-xs text-slate-600">Syncing latest prices...</p>
         )}
       </section>
 
       {/* Comparison Table */}
       <section className="section-shell mt-20">
-        <motion.div className="glass-card p-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.5 }}
+          className="glass-card overflow-hidden rounded-[28px] border border-white/10 p-6 sm:p-8"
+        >
           <div className="mb-6 flex items-center gap-3">
             <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary-light">
               <Sparkles className="h-5 w-5" />
             </span>
             <div>
-              <h2 className="text-2xl font-semibold text-white">
-                Full feature comparison
-              </h2>
-              <p className="text-sm text-slate-400">
-                Compare plans easily
-              </p>
+              <h2 className="text-2xl font-semibold text-white">Full feature comparison</h2>
+              <p className="text-sm text-slate-400">Every plan, side by side.</p>
             </div>
           </div>
 
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Feature</TableHead>
-                {plans.map((plan) => (
-                  <TableHead key={plan.plan_id} className="text-center">
-                    {plan.name}
-                  </TableHead>
-                ))}
-              </TableRow>
-            </TableHeader>
-
-            <TableBody>
-              {allFeatures.map((featureKey) => (
-                <TableRow key={featureKey}>
-                  <TableCell>{formatLabel(featureKey)}</TableCell>
-
+          <div className="-mx-6 overflow-x-auto px-6 sm:-mx-8 sm:px-8">
+            <Table className="min-w-[640px]">
+              <TableHeader>
+                <TableRow className="border-white/10 hover:bg-transparent">
+                  <TableHead className="text-slate-400">Feature</TableHead>
                   {plans.map((plan) => (
-                    <TableCell key={plan.plan_id} className="text-center">
-                      {plan.features[featureKey] ? (
-                        <Check className="mx-auto text-green-500" />
-                      ) : (
-                        <X className="mx-auto text-gray-400" />
-                      )}
-                    </TableCell>
+                    <TableHead key={plan.plan_id} className="text-center font-semibold text-white">
+                      {plan.name}
+                    </TableHead>
                   ))}
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+
+              <TableBody>
+                {featureRows.map((row) => (
+                  <TableRow
+                    key={row.key}
+                    className="border-white/5 transition-colors hover:bg-white/[0.03]"
+                  >
+                    <TableCell className="flex items-center gap-2.5 text-sm text-slate-300">
+                      <row.icon className="h-4 w-4 shrink-0 text-slate-500" />
+                      {row.label}
+                    </TableCell>
+
+                    {plans.map((plan) => {
+                      const enabled = row.key === "gst_billing" ? true : Boolean(plan.features?.[row.key]);
+                      return (
+                        <TableCell key={plan.plan_id} className="text-center">
+                          {enabled ? (
+                            <Check className="mx-auto h-4 w-4 text-success-light" />
+                          ) : (
+                            <Lock className="mx-auto h-3.5 w-3.5 text-slate-700" />
+                          )}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
         </motion.div>
       </section>
     </div>

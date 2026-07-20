@@ -3,6 +3,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import ChatWidget from "@/components/shared/ChatWidget";
 import { ThemeProvider } from "@/components/ui/theme-provider";
+import FAQInteractive from "@/components/faq/FAQInteractive";
 import "../styles/globals.css";
 
 const inter = Inter({
@@ -61,6 +62,7 @@ export default function RootLayout({ children }) {
         <ThemeProvider>
           <Navbar />
           <main>{children}</main>
+          <FAQInteractive />
           <Footer />
           <ChatWidget />
         </ThemeProvider>

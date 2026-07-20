@@ -1,9 +1,9 @@
 import FeaturesPageClient from "@/components/features/FeaturesPageClient";
 
 export const metadata = {
-  title: "Invoicezy Features - Live Invoicing, Collections, and Analytics",
+  title: "Powerful GST Invoice Software Features | Invoicezy",
   description:
-    "Explore Invoicezy's live invoice builder, payment tracking, GST automation, inventory control, and reporting features.",
+    "Invoicezy gives businesses everything they need to create Create GST invoices, manage clients, track expenses, monitor inventory, automate recurring invoices, accept UPI payments and grow your business with Invoicezy's complete cloud-based invoice software.",
   alternates: {
     canonical: "/features"
   },

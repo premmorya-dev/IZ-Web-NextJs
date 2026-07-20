@@ -3,8 +3,13 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import ChatWidget from "@/components/shared/ChatWidget";
 import { ThemeProvider } from "@/components/ui/theme-provider";
+<<<<<<< HEAD
 import "../styles/globals.css";
 import Script from "next/script";
+=======
+import FAQInteractive from "@/components/faq/FAQInteractive";
+import "../styles/globals.css";
+>>>>>>> dev
 
 const inter = Inter({
   subsets: ["latin"],
@@ -59,33 +64,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${poppins.variable} font-sans antialiased`}>
-
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-E0NH65K8GD"
-          strategy="afterInteractive"
-        />
-
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-
-            function gtag() {
-              dataLayer.push(arguments);
-            }
-
-            window.gtag = gtag;
-
-            gtag('js', new Date());
-
-            gtag('config', 'G-E0NH65K8GD', {
-              cookie_domain: '.invoicezy.com'
-            });
-          `}
-        </Script>
-
         <ThemeProvider>
           <Navbar />
           <main>{children}</main>
+          <FAQInteractive />
           <Footer />
           <ChatWidget />
         </ThemeProvider>

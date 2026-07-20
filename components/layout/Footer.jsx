@@ -45,15 +45,17 @@ export default function Footer() {
         <div className="glass-card grid gap-10 p-8 lg:grid-cols-[1.2fr_1fr]">
           <div className="space-y-4">
             <p className="text-sm uppercase tracking-[0.25em] text-primary-light">
-              Stay in the loop
+              Invoicezy Newsletter
             </p>
+
             <h2 className="max-w-xl text-3xl font-semibold text-white light:text-slate-950">
-              Weekly insights for billing, GST readiness, and faster
-              collections.
+              Learn GST Billing, Invoicing & Business Management
             </h2>
+
             <p className="max-w-lg text-slate-400 light:text-slate-600">
-              Join thousands of founders using Invoicezy to simplify their
-              finance operations.
+              Receive the latest GST updates, invoicing best practices, payment
+              reminders, inventory tips and business insights to help your
+              business grow.
             </p>
             <form
               className="flex flex-col gap-3 sm:flex-row"
@@ -142,14 +144,14 @@ export default function Footer() {
               height={80}
               className="rounded-lg object-contain"
             />
-
             <div>
               <p className="text-lg font-semibold text-white light:text-slate-950">
                 Invoicezy
               </p>
-              <p className="text-sm text-slate-500">
-                GST invoicing and billing software for ambitious Indian
-                businesses.
+              <p className="text-sm leading-6 text-slate-500">
+                India's smart GST Billing Software with online invoicing,
+                inventory management, expense tracking, UPI QR payments and
+                cloud-based business management.
               </p>
             </div>
           </div>

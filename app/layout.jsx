@@ -3,13 +3,8 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import ChatWidget from "@/components/shared/ChatWidget";
 import { ThemeProvider } from "@/components/ui/theme-provider";
-<<<<<<< HEAD
-import "../styles/globals.css";
-import Script from "next/script";
-=======
 import FAQInteractive from "@/components/faq/FAQInteractive";
 import "../styles/globals.css";
->>>>>>> dev
 
 const inter = Inter({
   subsets: ["latin"],

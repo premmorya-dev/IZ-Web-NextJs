@@ -19,8 +19,4 @@ GradientBadge.propTypes = {
   className: PropTypes.string,
   icon: PropTypes.elementType,
   text: PropTypes.string.isRequired
-<<<<<<< HEAD
 };
-=======
-};
->>>>>>> dev

@@ -2,14 +2,8 @@ import CTABanner from "@/components/home/CTABanner";
 import FeatureGrid from "@/components/home/FeatureGrid";
 import Hero from "@/components/home/Hero";
 import HowItWorks from "@/components/home/HowItWorks";
-<<<<<<< HEAD
-import Stats from "@/components/home/Stats";
-import TemplateShowcase from "@/components/home/TemplateShowcase";
-import Testimonials from "@/components/home/Testimonials";
-=======
 import WhyChooseInvoicezy from "@/components/home/WhyChooseInvoicezy";
 import TemplateShowcase from "@/components/home/TemplateShowcase";
->>>>>>> dev
 
 export const metadata = {
   title: "Invoicezy Home | Free Online Invoice Software - Professional Invoices in Minutes",

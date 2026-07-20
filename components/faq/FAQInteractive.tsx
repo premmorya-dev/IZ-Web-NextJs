@@ -36,14 +36,18 @@ export default function FAQInteractive() {
       software.
     </p>
   </div>
+<div className="mx-auto mt-14 max-w-5xl px-6">
+  <FAQSearch
+    value={query}
+    onChange={setQuery}
+    resultCount={filtered.length}
+  />
 
-  <div className="mx-auto mt-14 max-w-5xl px-6">
-    <FAQSearch value={query} onChange={setQuery} />
-    <FAQCategories
-      active={category}
-      onChange={setCategory}
-    />
-  </div>
+  <FAQCategories
+    active={category}
+    onChange={setCategory}
+  />
+</div>
 
   <div className="mx-auto mt-14 max-w-3xl px-6">
     <FAQAccordion items={filtered} />

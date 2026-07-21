@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { BadgePercent, Check, Lock, Sparkles } from "lucide-react";
 import PricingCard from "@/components/shared/PricingCard";
 import SectionHeader from "@/components/shared/SectionHeader";
-import { PLANS } from "@/lib/plan";
+// import { PLANS } from "@/lib/plan";
 import { getAllFeatureRows } from "@/lib/pricing-features";
 
 import {
@@ -20,7 +20,9 @@ import { cn } from "@/lib/utils";
 
 export default function PricingPageClient() {
   const [billing, setBilling] = useState("yearly"); // "monthly" | "yearly"
-  const [plans, setPlans] = useState(PLANS); // render instantly with fallback data, never a blank state
+  // const [plans, setPlans] = useState(PLANS); // render instantly with fallback data, never a blank state
+  const [plans, setPlans] = useState([]); // render instantly with fallback data, never a blank state
+
   const [syncing, setSyncing] = useState(true);
 
   useEffect(() => {

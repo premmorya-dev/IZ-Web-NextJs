@@ -45,6 +45,12 @@ export default function RegisterPageClient() {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event) => {
+    window.dataLayer = window.dataLayer || [];
+
+    window.dataLayer.push({
+      event: "register_click",
+    });
+
     event.preventDefault();
 
     let nextErrors = {};
@@ -53,8 +59,7 @@ export default function RegisterPageClient() {
     if (!form.firstName.trim()) nextErrors.firstName = "Enter first name.";
     if (!form.lastName.trim()) nextErrors.lastName = "Enter last name.";
     if (!form.email.includes("@")) nextErrors.email = "Enter valid email.";
-    if (form.password.length < 6)
-      nextErrors.password = "Min 6 characters.";
+    if (form.password.length < 6) nextErrors.password = "Min 6 characters.";
     if (form.password !== form.confirmPassword)
       nextErrors.confirmPassword = "Passwords do not match.";
 
@@ -65,23 +70,20 @@ export default function RegisterPageClient() {
       setLoading(true);
 
       // ✅ FIXED API URL
-      const response = await fetch(
-        "https://pro.invoicezy.com/api/register",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            first_name: form.firstName,
-            last_name: form.lastName,
-            email: form.email,
-            password: form.password,
-            password_confirmation: form.confirmPassword,
-            phone: form.phone,
-          }),
-        }
-      );
+      const response = await fetch("https://pro.invoicezy.com/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          first_name: form.firstName,
+          last_name: form.lastName,
+          email: form.email,
+          password: form.password,
+          password_confirmation: form.confirmPassword,
+          phone: form.phone,
+        }),
+      });
 
       const data = await response.json();
 
@@ -123,7 +125,6 @@ export default function RegisterPageClient() {
   return (
     <div className="section-shell pb-24 pt-32 sm:pb-28">
       <div className="overflow-hidden rounded-[32px] border border-white/10 bg-slate-950/40 shadow-soft light:border-slate-200 light:bg-white lg:grid lg:grid-cols-2">
-        
         {/* LEFT SIDE SAME */}
         <motion.div
           className="relative overflow-hidden bg-primary-gradient p-8 sm:p-10"
@@ -201,11 +202,26 @@ export default function RegisterPageClient() {
 
           <form className="space-y-5" onSubmit={handleSubmit}>
             {[
-              { id: "firstName", label: "First Name", icon: User, type: "text" },
+              {
+                id: "firstName",
+                label: "First Name",
+                icon: User,
+                type: "text",
+              },
               { id: "lastName", label: "Last Name", icon: User, type: "text" },
               { id: "email", label: "Email", icon: Mail, type: "email" },
-              { id: "password", label: "Password", icon: Lock, type: "password" },
-              { id: "confirmPassword", label: "Confirm Password", icon: Lock, type: "password" },
+              {
+                id: "password",
+                label: "Password",
+                icon: Lock,
+                type: "password",
+              },
+              {
+                id: "confirmPassword",
+                label: "Confirm Password",
+                icon: Lock,
+                type: "password",
+              },
               { id: "phone", label: "Phone", icon: Phone, type: "tel" },
             ].map((field) => {
               const Icon = field.icon;
@@ -236,7 +252,13 @@ export default function RegisterPageClient() {
               <p className="text-sm text-rose-300">{errors.general}</p>
             )}
 
-            <Button fullWidth size="lg" type="submit" className="mt-4" disabled={loading}>
+            <Button
+              fullWidth
+              size="lg"
+              type="submit"
+              className="mt-4"
+              disabled={loading}
+            >
               {loading ? "Creating..." : "Create Account"}
             </Button>
           </form>

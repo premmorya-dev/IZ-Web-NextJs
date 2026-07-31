@@ -1,6 +1,4 @@
-// app/blog/page.tsx
 import type { Metadata } from "next";
-import { getFeaturedBlog, getRemainingBlogs } from "@/lib/blog-data";
 import BlogHero from "@/components/blog/BlogHero";
 import BlogCard from "@/components/blog/BlogCard";
 import BlogGrid from "@/components/blog/BlogGrid";
@@ -22,11 +20,30 @@ export const metadata: Metadata = {
   },
 };
 
+async function getBlogs() {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/blogs`,
+    {
+      next: {
+        revalidate: 300,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch blogs");
+  }
+
+  const result = await response.json();
+
+  return result.data;
+}
+
 export default async function BlogListingPage() {
-  const [featured, remaining] = await Promise.all([
-    getFeaturedBlog(),
-    getRemainingBlogs(),
-  ]);
+  const blogs = await getBlogs();
+
+  const featured = blogs[0];
+  const remaining = blogs.slice(1);
 
   const collectionSchema = {
     "@context": "https://schema.org",
@@ -41,14 +58,18 @@ export default async function BlogListingPage() {
     <main className="bg-[#0A0E1A]">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(collectionSchema),
+        }}
       />
 
       <BlogHero />
 
-      <section className="mx-auto max-w-6xl px-6 pb-4">
-        <BlogCard blog={featured} variant="featured" />
-      </section>
+      {featured && (
+        <section className="mx-auto max-w-6xl px-6 pb-4">
+          <BlogCard blog={featured} variant="featured" />
+        </section>
+      )}
 
       <section className="mx-auto max-w-6xl px-6 py-20">
         <div className="mx-auto mb-14 max-w-3xl text-center">
@@ -61,9 +82,9 @@ export default async function BlogListingPage() {
           </h2>
 
           <p className="mx-auto mt-4 max-w-2xl text-lg leading-8 text-slate-400">
-            Explore expert articles on GST invoicing, online billing, UPI payments,
-            expense tracking, accounting tips, and business growth to help you run
-            your business more efficiently.
+            Explore expert articles on GST invoicing, online billing, UPI
+            payments, expense tracking, accounting tips, and business growth
+            to help you run your business more efficiently.
           </p>
         </div>
 

@@ -27,6 +27,13 @@ export default function PricingPageClient() {
 
   useEffect(() => {
     const fetchPlans = async () => {
+      if (typeof window !== "undefined") {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: "view_pricing"          
+        });
+      }
+
       try {
         const res = await fetch("https://pro.invoicezy.com/api/plans");
         const data = await res.json();
@@ -69,13 +76,15 @@ export default function PricingPageClient() {
         {/* Billing toggle */}
         <div className="mb-12 flex justify-center">
           <div className="glass-card relative inline-flex items-center gap-1 rounded-2xl border border-white/10 p-1.5">
-            {[ "yearly"].map((mode) => (
+            {["yearly"].map((mode) => (
               <button
                 key={mode}
                 onClick={() => setBilling(mode)}
                 className={cn(
                   "relative z-10 rounded-xl px-5 py-2.5 text-sm font-medium capitalize transition-colors duration-200",
-                  billing === mode ? "text-white" : "text-slate-400 hover:text-slate-200"
+                  billing === mode
+                    ? "text-white"
+                    : "text-slate-400 hover:text-slate-200",
                 )}
               >
                 {billing === mode && (
@@ -109,7 +118,9 @@ export default function PricingPageClient() {
         </div>
 
         {!syncing ? null : (
-          <p className="mt-6 text-center text-xs text-slate-600">Syncing latest prices...</p>
+          <p className="mt-6 text-center text-xs text-slate-600">
+            Syncing latest prices...
+          </p>
         )}
       </section>
 
@@ -127,8 +138,12 @@ export default function PricingPageClient() {
               <Sparkles className="h-5 w-5" />
             </span>
             <div>
-              <h2 className="text-2xl font-semibold text-white">Full feature comparison</h2>
-              <p className="text-sm text-slate-400">Every plan, side by side.</p>
+              <h2 className="text-2xl font-semibold text-white">
+                Full feature comparison
+              </h2>
+              <p className="text-sm text-slate-400">
+                Every plan, side by side.
+              </p>
             </div>
           </div>
 
@@ -138,7 +153,10 @@ export default function PricingPageClient() {
                 <TableRow className="border-white/10 hover:bg-transparent">
                   <TableHead className="text-slate-400">Feature</TableHead>
                   {plans.map((plan) => (
-                    <TableHead key={plan.plan_id} className="text-center font-semibold text-white">
+                    <TableHead
+                      key={plan.plan_id}
+                      className="text-center font-semibold text-white"
+                    >
                       {plan.name}
                     </TableHead>
                   ))}
@@ -157,7 +175,10 @@ export default function PricingPageClient() {
                     </TableCell>
 
                     {plans.map((plan) => {
-                      const enabled = row.key === "gst_billing" ? true : Boolean(plan.features?.[row.key]);
+                      const enabled =
+                        row.key === "gst_billing"
+                          ? true
+                          : Boolean(plan.features?.[row.key]);
                       return (
                         <TableCell key={plan.plan_id} className="text-center">
                           {enabled ? (

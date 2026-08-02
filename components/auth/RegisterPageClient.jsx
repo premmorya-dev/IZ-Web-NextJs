@@ -134,7 +134,7 @@ export default function RegisterPageClient() {
       }
 
       // ✅ Fire the conversion event only on a real, successful signup
-      pushAnalyticsEvent("sign_up", { method: "email" });
+      pushAnalyticsEvent("register_click");
 
       const redirectUrl = data?.data?.url;
       if (redirectUrl) {

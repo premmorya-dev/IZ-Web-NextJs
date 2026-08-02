@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -41,6 +41,14 @@ function getPasswordStrength(password) {
 }
 
 export default function RegisterPageClient() {
+  const pushAnalyticsEvent = (eventName, extra = {}) => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: eventName, ...extra });
+  };
+  useEffect(() => {
+    pushAnalyticsEvent("register_click");
+  }, []);
+
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
@@ -56,18 +64,14 @@ export default function RegisterPageClient() {
 
   const strength = useMemo(
     () => getPasswordStrength(form.password),
-    [form.password]
+    [form.password],
   );
 
   const updateField = (id) => (e) => {
-    const value = e?.target?.type === "checkbox" ? e.target.checked : e.target.value;
+    const value =
+      e?.target?.type === "checkbox" ? e.target.checked : e.target.value;
     setForm((c) => ({ ...c, [id]: value }));
     if (errors[id]) setErrors((c) => ({ ...c, [id]: undefined }));
-  };
-
-  const pushAnalyticsEvent = (eventName, extra = {}) => {
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({ event: eventName, ...extra });
   };
 
   const handleSubmit = async (event) => {
@@ -134,7 +138,7 @@ export default function RegisterPageClient() {
       }
 
       // ✅ Fire the conversion event only on a real, successful signup
-      pushAnalyticsEvent("register_click");
+      pushAnalyticsEvent("signup_success");
 
       const redirectUrl = data?.data?.url;
       if (redirectUrl) {
@@ -151,10 +155,34 @@ export default function RegisterPageClient() {
   };
 
   const fields = [
-    { id: "firstName", label: "First name", icon: User, type: "text", autoComplete: "given-name" },
-    { id: "lastName", label: "Last name", icon: User, type: "text", autoComplete: "family-name" },
-    { id: "email", label: "Work email", icon: Mail, type: "email", autoComplete: "email" },
-    { id: "phone", label: "Mobile number", icon: Phone, type: "tel", autoComplete: "tel" },
+    {
+      id: "firstName",
+      label: "First name",
+      icon: User,
+      type: "text",
+      autoComplete: "given-name",
+    },
+    {
+      id: "lastName",
+      label: "Last name",
+      icon: User,
+      type: "text",
+      autoComplete: "family-name",
+    },
+    {
+      id: "email",
+      label: "Work email",
+      icon: Mail,
+      type: "email",
+      autoComplete: "email",
+    },
+    {
+      id: "phone",
+      label: "Mobile number",
+      icon: Phone,
+      type: "tel",
+      autoComplete: "tel",
+    },
   ];
 
   return (
@@ -210,7 +238,6 @@ export default function RegisterPageClient() {
                 <li>Your data is never sold or shared with third parties</li>
                 <li>Cancel anytime, no lock-in contracts</li>
               </ul>
-              
             </div>
           </div>
         </motion.div>
@@ -276,7 +303,9 @@ export default function RegisterPageClient() {
                   value={form.password}
                   onChange={updateField("password")}
                   aria-invalid={Boolean(errors.password)}
-                  aria-describedby={errors.password ? "password-error" : undefined}
+                  aria-describedby={
+                    errors.password ? "password-error" : undefined
+                  }
                 />
                 <Lock className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
               </div>
@@ -291,7 +320,9 @@ export default function RegisterPageClient() {
                       }}
                     />
                   </div>
-                  <span className="text-xs text-slate-400">{strength.label}</span>
+                  <span className="text-xs text-slate-400">
+                    {strength.label}
+                  </span>
                 </div>
               )}
               {errors.password && (
@@ -321,7 +352,9 @@ export default function RegisterPageClient() {
                 <Lock className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
               </div>
               {errors.confirmPassword && (
-                <p className="text-sm text-rose-300">{errors.confirmPassword}</p>
+                <p className="text-sm text-rose-300">
+                  {errors.confirmPassword}
+                </p>
               )}
             </div>
 
@@ -335,11 +368,17 @@ export default function RegisterPageClient() {
                 />
                 <span>
                   I agree to Invoicezy&apos;s{" "}
-                  <Link href="/terms" className="text-primary-light underline light:text-primary">
+                  <Link
+                    href="/terms"
+                    className="text-primary-light underline light:text-primary"
+                  >
                     Terms of Service
                   </Link>{" "}
                   and{" "}
-                  <Link href="/privacy" className="text-primary-light underline light:text-primary">
+                  <Link
+                    href="/privacy"
+                    className="text-primary-light underline light:text-primary"
+                  >
                     Privacy Policy
                   </Link>
                   .

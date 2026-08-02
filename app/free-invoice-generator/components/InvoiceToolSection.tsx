@@ -215,6 +215,12 @@ export default function InvoiceToolSection() {
           <ToolbarButton onClick={handleClearDraft}>Clear Draft</ToolbarButton>
           <ToolbarButton
             onClick={() => {
+              (window as any).dataLayer = (window as any).dataLayer || [];
+
+              (window as any).dataLayer.push({
+                event: "download_pdf_click",
+              });
+
               window.location.href = "/register";
             }}
             primary
@@ -235,8 +241,8 @@ export default function InvoiceToolSection() {
                     onClick={() => setActiveTab(tab)}
                     aria-current={activeTab === tab}
                     className={`rounded-lg px-3 py-1.5 text-xs font-medium transition-colors ${activeTab === tab
-                        ? "bg-gradient-to-r from-cyan-400 to-violet-500 text-[#0A0E1A]"
-                        : "border border-white/10 text-white/60 hover:text-white/90"
+                      ? "bg-gradient-to-r from-cyan-400 to-violet-500 text-[#0A0E1A]"
+                      : "border border-white/10 text-white/60 hover:text-white/90"
                       }`}
                   >
                     {tab}
@@ -259,7 +265,7 @@ export default function InvoiceToolSection() {
                     removeCustomColumn={removeCustomColumn}
                   />
                 )}
-               
+
                 {activeTab === "Payment" && <PaymentTab state={state} patch={patch} />}
                 {activeTab === "Notes & Advanced" && (
                   <AdvancedTab
@@ -606,8 +612,8 @@ function DesignTab({
               type="button"
               onClick={() => patch({ design: { ...state.design, template: t.id, accentColor: t.color } })}
               className={`rounded-lg border p-3 text-left transition-colors ${state.design.template === t.id
-                  ? "border-cyan-400/60 bg-white/[0.06]"
-                  : "border-white/10 hover:border-white/25"
+                ? "border-cyan-400/60 bg-white/[0.06]"
+                : "border-white/10 hover:border-white/25"
                 }`}
             >
               <span className="block h-2 w-full rounded-full" style={{ backgroundColor: t.color }} aria-hidden="true" />

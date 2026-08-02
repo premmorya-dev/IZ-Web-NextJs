@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type CSSProperties } from "react";
+import { useState, useEffect, type CSSProperties } from "react";
 
 /**
  * NOTE FOR PREM:
@@ -32,6 +32,13 @@ const COLORS = {
 export default function InvoiceGeneratorHero() {
   const [hovering, setHovering] = useState(false);
 
+  useEffect(() => {
+    (window as any).dataLayer = (window as any).dataLayer || [];
+
+    (window as any).dataLayer.push({
+      event: "view_free_invoice_generator",
+    });
+  }, []);
   return (
     <section style={styles.hero}>
       {/* keyframes only — plain <style> tag, not styled-jsx, so it renders
@@ -73,6 +80,13 @@ export default function InvoiceGeneratorHero() {
               style={{ ...styles.ctaBtn, transform: hovering ? "scale(1.02)" : "scale(1)" }}
               onMouseEnter={() => setHovering(true)}
               onMouseLeave={() => setHovering(false)}
+              onClick={() => {
+                (window as any).dataLayer = (window as any).dataLayer || [];
+
+                (window as any).dataLayer.push({
+                  event: "create_invoice_click",
+                });
+              }}
             >
               Create My Invoice Free
               <span style={{ transform: hovering ? "translateX(2px)" : "none" }}>→</span>

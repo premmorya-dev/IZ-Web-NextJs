@@ -11,7 +11,7 @@ import StickyCTA from "./components/StickyCTA";
 import WhyChooseInvoicezy from "@/components/home/WhyChooseInvoicezy";
 import TemplateShowcase from "@/components/home/TemplateShowcase";
 
-
+import { useEffect } from "react";
 import {
   PAGE_URL,
   getSoftwareApplicationSchema,
@@ -20,6 +20,7 @@ import {
   getOrganizationSchema,
   getWebsiteSchema,
 } from "./lib/schema";
+
 
 const TITLE =
   "Free Invoice Generator Online | Create GST Invoices in Seconds — Invoicezy";

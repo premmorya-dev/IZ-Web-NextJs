@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
 export default function TemplatesPageClient() {
   const [filter, setFilter] = useState("All");
   const [query, setQuery] = useState("");
-  const [sort, setSort] = useState("Popular");
+  const [sort, setSort] = useState();
 
   const featured = useMemo(
     () => [...TEMPLATES].sort((a, b) => b.downloads - a.downloads).slice(0, 3),
@@ -41,7 +41,7 @@ export default function TemplatesPageClient() {
     } else if (sort === "New") {
       data.sort((a, b) => b.id - a.id);
     } else {
-      data.sort((a, b) => a.category.localeCompare(b.category));
+        data.sort((a, b) => a.id - b.id);
     }
 
     return data;
@@ -57,7 +57,7 @@ export default function TemplatesPageClient() {
           icon={LayoutTemplate}
           title="Invoice Templates for Every Business"
         />
-        <div className="glass-card mb-10 grid gap-4 p-4 lg:grid-cols-[1.4fr_0.9fr_0.7fr]">
+        {/* <div className="glass-card mb-10 grid gap-4 p-4 lg:grid-cols-[1.4fr_0.9fr_0.7fr]">
           <div className="flex flex-wrap gap-3">
             {TEMPLATE_FILTERS.map((item) => (
               <button
@@ -84,7 +84,7 @@ export default function TemplatesPageClient() {
             value={sort}
             onChange={(event) => setSort(event.target.value)}
           />
-        </div>
+        </div> */}
       </section>
 
       <section className="section-shell">

@@ -94,9 +94,13 @@ export default function Footer() {
                       {item}
                     </Link>
                   ))}
+
+
                 </div>
               </div>
             ))}
+            
+
 
             <div key="resources">
               <h3 className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
@@ -121,6 +125,18 @@ export default function Footer() {
                   Free Invoice Software
                 </Link>
               </div>
+
+
+              <div className="mt-4 space-y-3">
+                <Link
+                  key="free-invoice-generator"
+                  className="block text-sm text-slate-400 transition-colors hover:text-white light:hover:text-slate-950"
+                  href="/free-invoice-generator"
+                >
+                  Free Invoice Generator
+                </Link>
+              </div>
+
 
               <div className="mt-4 space-y-3">
                 <Link

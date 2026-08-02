@@ -58,7 +58,7 @@ Whether you send 5 invoices every month or thousands, Invoicezy helps you automa
         </div>
       </section>
 
-      <section className="section-shell mt-20">
+      {/* <section className="section-shell mt-20">
         <SectionHeader
           badge="Team"
           description="A focused team of product, design, and engineering leaders building better finance workflows."
@@ -75,7 +75,7 @@ Whether you send 5 invoices every month or thousands, Invoicezy helps you automa
             </div>
           ))}
         </div>
-      </section>
+      </section> */}
 
       <section className="section-shell mt-20">
         <SectionHeader

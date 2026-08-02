@@ -259,9 +259,7 @@ export default function InvoiceToolSection() {
                     removeCustomColumn={removeCustomColumn}
                   />
                 )}
-                {activeTab === "Design" && (
-                  <DesignTab state={state} patch={patch} toggleOptional={toggleOptional} />
-                )}
+               
                 {activeTab === "Payment" && <PaymentTab state={state} patch={patch} />}
                 {activeTab === "Notes & Advanced" && (
                   <AdvancedTab

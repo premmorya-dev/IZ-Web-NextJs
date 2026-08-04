@@ -210,24 +210,30 @@ export default function InvoiceToolSection() {
 
       <div className="mx-auto max-w-6xl">
         {/* Toolbar */}
-        <div className="mb-4 flex flex-wrap items-center justify-end gap-2 no-print">
+       <div className="mb-6 flex flex-wrap items-center justify-end gap-3 no-print">
+  <ToolbarButton
+    onClick={handleClearDraft}
+    className="h-12 px-6 text-base font-semibold"
+  >
+    Clear Draft
+  </ToolbarButton>
 
-          <ToolbarButton onClick={handleClearDraft}>Clear Draft</ToolbarButton>
-          <ToolbarButton
-            onClick={() => {
-              (window as any).dataLayer = (window as any).dataLayer || [];
+  <ToolbarButton
+    onClick={() => {
+      (window as any).dataLayer = (window as any).dataLayer || [];
 
-              (window as any).dataLayer.push({
-                event: "download_pdf_click",
-              });
+      (window as any).dataLayer.push({
+        event: "download_pdf_click",
+      });
 
-              window.location.href = "/register";
-            }}
-            primary
-          >
-            Print / Download PDF
-          </ToolbarButton>
-        </div>
+      window.location.href = "/register";
+    }}
+    primary
+    className="h-14 px-8 text-lg font-semibold"
+  >
+    Print / Download PDF
+  </ToolbarButton>
+</div>
 
         <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-sm">
           <div className="grid gap-0 lg:grid-cols-2">
@@ -972,20 +978,22 @@ function ToolbarButton({
   children,
   onClick,
   primary,
+  className = "",
 }: {
   children: React.ReactNode;
   onClick: () => void;
   primary?: boolean;
+  className?: string;
 }) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className={
+      className={`${
         primary
-          ? "rounded-lg bg-gradient-to-r from-cyan-400 to-violet-500 px-4 py-2 text-xs font-semibold text-[#0A0E1A] transition-transform hover:scale-[1.02]"
-          : "rounded-lg border border-white/15 px-3.5 py-2 text-xs font-medium text-white/75 transition-colors hover:bg-white/5"
-      }
+          ? "rounded-lg border border-white/15 px-3.5 py-2 text-xs font-medium text-white/75 transition-colors hover:bg-white/5 h-12 px-6 text-base font-semibold"
+          : "rounded-lg border border-white/15 px-3.5 py-2 text-xs font-medium text-white/75 transition-colors hover:bg-white/5 h-12 px-6 text-base font-semibold"
+      } ${className}`}
     >
       {children}
     </button>

@@ -56,7 +56,7 @@ export default function RegisterPageClient() {
     password: "",
     confirmPassword: "",
     phone: "",
-    terms: false,
+   
   });
 
   const [errors, setErrors] = useState({});
@@ -89,8 +89,7 @@ export default function RegisterPageClient() {
       nextErrors.password = "Use at least 8 characters.";
     if (form.password !== form.confirmPassword)
       nextErrors.confirmPassword = "Passwords do not match.";
-    if (!form.terms)
-      nextErrors.terms = "Accept the Terms and Privacy Policy to continue.";
+   
 
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) {
@@ -176,21 +175,14 @@ export default function RegisterPageClient() {
       type: "email",
       autoComplete: "email",
     },
-    {
-      id: "phone",
-      label: "Mobile number",
-      icon: Phone,
-      type: "tel",
-      autoComplete: "tel",
-    },
   ];
 
   return (
     <div className="section-shell pb-24 pt-32 sm:pb-28">
-      <div className="overflow-hidden rounded-[32px] border border-white/10 bg-slate-950/40 shadow-soft light:border-slate-200 light:bg-white lg:grid lg:grid-cols-2">
+      <div className="flex flex-col overflow-hidden rounded-[32px] border border-white/10 bg-slate-950/40 shadow-soft light:border-slate-200 light:bg-white lg:grid lg:grid-cols-2">
         {/* LEFT — brand + real, verifiable trust signals */}
         <motion.div
-          className="relative overflow-hidden bg-primary-gradient p-8 sm:p-10"
+          className="order-2 lg:order-1 relative overflow-hidden bg-primary-gradient p-8 sm:p-10"
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.45 }}
@@ -244,7 +236,7 @@ export default function RegisterPageClient() {
 
         {/* RIGHT — form */}
         <motion.div
-          className="border-t border-white/10 bg-slate-950/70 p-8 light:border-slate-200 light:bg-white sm:p-10 lg:border-l lg:border-t-0"
+          className="order-1 lg:order-2 border-t border-white/10 bg-slate-950/70 p-8 light:border-slate-200 light:bg-white sm:p-10 lg:border-l lg:border-t-0"
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.45 }}
@@ -275,7 +267,7 @@ export default function RegisterPageClient() {
               ))}
             </div>
 
-            <div className="grid gap-5 sm:grid-cols-2">
+            <div className="grid gap-5 sm:grid-cols-1">
               {fields.slice(2).map((field) => (
                 <FormField
                   key={field.id}
@@ -286,108 +278,103 @@ export default function RegisterPageClient() {
                 />
               ))}
             </div>
+            <div className="grid gap-5 sm:grid-cols-2">
+              {/* Password */}
+              <div className="space-y-2">
+                <label
+                  htmlFor="password"
+                  className="text-sm text-slate-300 light:text-slate-700"
+                >
+                  Password
+                </label>
 
-            <div className="space-y-2">
-              <label
-                htmlFor="password"
-                className="text-sm text-slate-300 light:text-slate-700"
-              >
-                Password
-              </label>
-              <div className="relative">
-                <Input
-                  id="password"
-                  className="pl-11"
-                  type="password"
-                  autoComplete="new-password"
-                  value={form.password}
-                  onChange={updateField("password")}
-                  aria-invalid={Boolean(errors.password)}
-                  aria-describedby={
-                    errors.password ? "password-error" : undefined
-                  }
-                />
-                <Lock className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
-              </div>
-              {form.password && (
-                <div className="flex items-center gap-2">
-                  <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/10 light:bg-slate-200">
-                    <div
-                      className="h-full rounded-full transition-all"
-                      style={{
-                        width: `${(strength.score / 4) * 100}%`,
-                        backgroundColor: strength.color,
-                      }}
-                    />
-                  </div>
-                  <span className="text-xs text-slate-400">
-                    {strength.label}
-                  </span>
+                <div className="relative">
+                  <Input
+                    id="password"
+                    className="pl-11"
+                    type="password"
+                    autoComplete="new-password"
+                    value={form.password}
+                    onChange={updateField("password")}
+                    aria-invalid={Boolean(errors.password)}
+                    aria-describedby={
+                      errors.password ? "password-error" : undefined
+                    }
+                  />
+                  <Lock className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
                 </div>
-              )}
-              {errors.password && (
-                <p id="password-error" className="text-sm text-rose-300">
-                  {errors.password}
-                </p>
-              )}
-            </div>
 
-            <div className="space-y-2">
-              <label
-                htmlFor="confirmPassword"
-                className="text-sm text-slate-300 light:text-slate-700"
-              >
-                Confirm password
-              </label>
-              <div className="relative">
-                <Input
-                  id="confirmPassword"
-                  className="pl-11"
-                  type="password"
-                  autoComplete="new-password"
-                  value={form.confirmPassword}
-                  onChange={updateField("confirmPassword")}
-                  aria-invalid={Boolean(errors.confirmPassword)}
-                />
-                <Lock className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+                {form.password && (
+                  <div className="flex items-center gap-2">
+                    <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/10 light:bg-slate-200">
+                      <div
+                        className="h-full rounded-full transition-all"
+                        style={{
+                          width: `${(strength.score / 4) * 100}%`,
+                          backgroundColor: strength.color,
+                        }}
+                      />
+                    </div>
+                    <span className="text-xs text-slate-400">
+                      {strength.label}
+                    </span>
+                  </div>
+                )}
+
+                {errors.password && (
+                  <p id="password-error" className="text-sm text-rose-300">
+                    {errors.password}
+                  </p>
+                )}
               </div>
-              {errors.confirmPassword && (
-                <p className="text-sm text-rose-300">
-                  {errors.confirmPassword}
-                </p>
-              )}
+
+              {/* Confirm Password */}
+              <div className="space-y-2">
+                <label
+                  htmlFor="confirmPassword"
+                  className="text-sm text-slate-300 light:text-slate-700"
+                >
+                  Confirm password
+                </label>
+
+                <div className="relative">
+                  <Input
+                    id="confirmPassword"
+                    className="pl-11"
+                    type="password"
+                    autoComplete="new-password"
+                    value={form.confirmPassword}
+                    onChange={updateField("confirmPassword")}
+                    aria-invalid={Boolean(errors.confirmPassword)}
+                  />
+                  <Lock className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500" />
+                </div>
+
+                {errors.confirmPassword && (
+                  <p className="text-sm text-rose-300">
+                    {errors.confirmPassword}
+                  </p>
+                )}
+              </div>
             </div>
 
-            <div className="space-y-2">
-              <label className="flex items-start gap-3 text-sm text-slate-300 light:text-slate-700">
-                <input
-                  type="checkbox"
-                  className="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-white/20 bg-transparent accent-indigo-500"
-                  checked={form.terms}
-                  onChange={updateField("terms")}
-                />
-                <span>
-                  I agree to Invoicezy&apos;s{" "}
-                  <Link
-                    href="/terms"
-                    className="text-primary-light underline light:text-primary"
-                  >
-                    Terms of Service
-                  </Link>{" "}
-                  and{" "}
-                  <Link
-                    href="/privacy"
-                    className="text-primary-light underline light:text-primary"
-                  >
-                    Privacy Policy
-                  </Link>
-                  .
-                </span>
-              </label>
-              {errors.terms && (
-                <p className="text-sm text-rose-300">{errors.terms}</p>
-              )}
-            </div>
+            <p className="text-center text-xs text-slate-500 leading-5">
+              By creating an account, you agree to our{" "}
+              <Link
+                href="/terms"
+                className="text-primary-light underline hover:no-underline light:text-primary"
+              >
+                Terms of Service
+              </Link>{" "}
+              and{" "}
+              <Link
+                href="/privacy"
+                className="text-primary-light underline hover:no-underline light:text-primary"
+              >
+                Privacy Policy
+              </Link>
+              .
+            </p>
 
             {errors.general && (
               <p className="text-sm text-rose-300">{errors.general}</p>

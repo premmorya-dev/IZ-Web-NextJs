@@ -9,7 +9,6 @@ import {
   CreditCard,
   Lock,
   Mail,
-  Phone,
   Rocket,
   ShieldCheck,
   User,
@@ -55,8 +54,6 @@ export default function RegisterPageClient() {
     email: "",
     password: "",
     confirmPassword: "",
-    phone: "",
-   
   });
 
   const [errors, setErrors] = useState({});
@@ -83,13 +80,10 @@ export default function RegisterPageClient() {
     if (!form.lastName.trim()) nextErrors.lastName = "Enter your last name.";
     if (!/^\S+@\S+\.\S+$/.test(form.email))
       nextErrors.email = "Enter a valid email address.";
-    if (!/^[6-9]\d{9}$/.test(form.phone.replace(/\s/g, "")))
-      nextErrors.phone = "Enter a valid 10-digit mobile number.";
     if (form.password.length < 8)
       nextErrors.password = "Use at least 8 characters.";
     if (form.password !== form.confirmPassword)
       nextErrors.confirmPassword = "Passwords do not match.";
-   
 
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) {
@@ -111,7 +105,6 @@ export default function RegisterPageClient() {
           email: form.email,
           password: form.password,
           password_confirmation: form.confirmPassword,
-          phone: form.phone,
         }),
       });
 
@@ -127,7 +120,6 @@ export default function RegisterPageClient() {
             else if (key === "last_name") apiErrors.lastName = message;
             else if (key === "email") apiErrors.email = message;
             else if (key === "password") apiErrors.password = message;
-            else if (key === "phone") apiErrors.phone = message;
             else apiErrors.general = message;
           });
         }

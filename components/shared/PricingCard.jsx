@@ -115,7 +115,7 @@ export default function PricingCard({
           </span>
           {!isFree && (
             <span className="mb-1.5 text-sm font-medium text-slate-400">
-              /{billing === "monthly" ? "mo" : "year"}
+              /month
             </span>
           )}
         </div>
@@ -127,7 +127,7 @@ export default function PricingCard({
             ? `Free forever perfect for trying Invoicezy risk-free`
             : billing === "monthly"
               ? `Billed annually as \u20b9${formatPrice(price)}`
-              : `Unlimited invoices for less than ₹${pricePerDay}/day. billed annually`}
+              : `Unlimited invoices for less than ₹${pricePerDay}/day. billed annually approx ₹${price*12}`}
         </p>
 
         {/* CTA */}

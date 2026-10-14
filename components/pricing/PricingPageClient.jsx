@@ -30,13 +30,14 @@ export default function PricingPageClient() {
       if (typeof window !== "undefined") {
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
-          event: "view_pricing"          
+          event: "view_pricing",
         });
       }
 
       try {
         const res = await fetch("https://pro.invoicezy.com/api/plans");
         const data = await res.json();
+    
 
         const parsed = data.map((plan) => ({
           ...plan,
@@ -74,31 +75,12 @@ export default function PricingPageClient() {
         />
 
         {/* Billing toggle */}
+
         <div className="mb-12 flex justify-center">
           <div className="glass-card relative inline-flex items-center gap-1 rounded-2xl border border-white/10 p-1.5">
-            {["yearly"].map((mode) => (
-              <button
-                key={mode}
-                onClick={() => setBilling(mode)}
-                className={cn(
-                  "relative z-10 rounded-xl px-5 py-2.5 text-sm font-medium capitalize transition-colors duration-200",
-                  billing === mode
-                    ? "text-white"
-                    : "text-slate-400 hover:text-slate-200",
-                )}
-              >
-                {billing === mode && (
-                  <motion.span
-                    layoutId="billing-pill"
-                    transition={{ type: "spring", stiffness: 350, damping: 28 }}
-                    className="absolute inset-0 -z-10 rounded-xl bg-primary-gradient"
-                  />
-                )}
-                {mode}
-              </button>
-            ))}
-            <span className="ml-2 mr-1.5 flex items-center rounded-full border border-success/30 bg-success/10 px-3 py-1 text-xs font-medium text-success-light">
-              Save on annual
+            <span className="flex items-center gap-2 rounded-full border border-success/30 bg-success/10 px-4 py-2 text-xs font-medium text-success-light sm:text-sm">
+              <Lock className="h-4 w-4" />
+              All paid plans are billed annually
             </span>
           </div>
         </div>

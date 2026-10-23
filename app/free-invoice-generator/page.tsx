@@ -7,6 +7,7 @@ import IndustriesSection from "./components/IndustriesSection";
 import ComparisonSection from "./components/ComparisonSection";
 import FAQSection from "./components/FAQSection";
 import StickyCTA from "./components/StickyCTA";
+import DemoVideo from "@/components/demo-video/DemoVideoClient";
 
 import WhyChooseInvoicezy from "@/components/home/WhyChooseInvoicezy";
 import TemplateShowcase from "@/components/home/TemplateShowcase";
@@ -85,6 +86,8 @@ export default function FreeInvoiceGeneratorPage() {
         <InvoiceGeneratorHero />
         <InvoiceToolSection />
         <HowItWorksSection />
+        <DemoVideo />
+        <TemplateShowcase />
         <FeaturesGrid />
         <IndustriesSection />
         <ComparisonSection />

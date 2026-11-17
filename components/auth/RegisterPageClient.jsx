@@ -17,6 +17,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { REGISTER_BENEFITS, SOCIAL_PROOF_AVATARS } from "@/lib/constants";
 
+import { GoogleOAuthProvider, useGoogleLogin } from "@react-oauth/google";
+
 const benefitIcons = [BadgeCheck, CreditCard, Rocket, ShieldCheck];
 
 function getPasswordStrength(password) {
@@ -39,7 +41,7 @@ function getPasswordStrength(password) {
   return { ...levels[score], score };
 }
 
-export default function RegisterPageClient() {
+export function RegisterPageInner() {
   const pushAnalyticsEvent = (eventName, extra = {}) => {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ event: eventName, ...extra });
@@ -70,7 +72,36 @@ export default function RegisterPageClient() {
     setForm((c) => ({ ...c, [id]: value }));
     if (errors[id]) setErrors((c) => ({ ...c, [id]: undefined }));
   };
+const handleGoogleToken = async (accessToken) => {
+  try {
+    setLoading(true);
+    setErrors({});
 
+    const response = await fetch("https://staging.invoicezy.com/api/google-login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ access_token: accessToken }),
+    });
+    const data = await response.json();
+
+    if (!data.status) {
+      setErrors({ general: data.message || "Google sign-in failed. Please try again." });
+      return;
+    }
+
+    pushAnalyticsEvent("signup_success", {
+      method: "google",
+      is_new_user: data.data.is_new_user,
+    });
+
+    if (data?.data?.url) window.location.href = data.data.url;
+  } catch (error) {
+    console.error(error);
+    setErrors({ general: "Something went wrong on our end. Please try again." });
+  } finally {
+    setLoading(false);
+  }
+};
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -246,6 +277,23 @@ export default function RegisterPageClient() {
             </p>
           </div>
 
+
+        <GoogleButton
+          disabled={loading}
+          onToken={handleGoogleToken}
+          onError={() => setErrors({ general: "Google sign-in was cancelled or failed." })}
+          onClick={() => pushAnalyticsEvent("google_signup_click")}
+        />
+
+        <div className="my-6 flex items-center gap-3">
+          <div className="h-px flex-1 bg-white/10 light:bg-slate-200" />
+          <span className="text-xs uppercase tracking-widest text-slate-500">
+            or sign up with email
+          </span>
+          <div className="h-px flex-1 bg-white/10 light:bg-slate-200" />
+        </div>
+
+
           <form className="space-y-5" onSubmit={handleSubmit} noValidate>
             <div className="grid gap-5 sm:grid-cols-2">
               {fields.slice(0, 2).map((field) => (
@@ -402,6 +450,41 @@ export default function RegisterPageClient() {
   );
 }
 
+export default function RegisterPageClient() {
+  return (
+    <GoogleOAuthProvider clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}>
+      <RegisterPageInner />
+    </GoogleOAuthProvider>
+  );
+}
+function GoogleButton({ onToken, onError, onClick, disabled }) {
+  const login = useGoogleLogin({
+    flow: "implicit",
+    onSuccess: (res) => onToken(res.access_token),
+    onError,
+    onNonOAuthError: onError,
+  });
+
+  return (
+    <button
+      type="button"
+      disabled={disabled}
+      onClick={() => {
+        onClick?.();
+        login();
+      }}
+      className="group flex w-full items-center justify-center gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-3.5 text-sm font-semibold text-slate-800 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-indigo-500/20 active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-60"
+    >
+      <svg viewBox="0 0 48 48" className="h-5 w-5" aria-hidden="true">
+        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
+        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
+        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
+        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
+      </svg>
+      Continue with Google
+    </button>
+  );
+}
 function FormField({ field, value, error, onChange }) {
   const Icon = field.icon;
   return (
